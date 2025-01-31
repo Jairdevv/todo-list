@@ -2,7 +2,7 @@ import { useState } from "react";
 import useHover from "../hooks/useHover";
 import "./TaskItem.css";
 
-const TaskItem = ({ task }) => {
+const TaskItem = ({ task, onEdit, onDelete }) => {
   const { isHover, handlerMouseEnter, handlerMouseLeave } = useHover();
   const [isChecked, setIsChecked] = useState(false);
 
@@ -15,16 +15,19 @@ const TaskItem = ({ task }) => {
       className="task-item"
       onMouseEnter={handlerMouseEnter}
       onMouseLeave={handlerMouseLeave}
-      onClick={handlerToggle}
     >
-      <div className="task-item-header">
+      <div className="task-item-header" onClick={handlerToggle}>
         <input type="checkbox" checked={isChecked} onChange={handlerToggle} />
         <h2>{task}</h2>
       </div>
       {isHover && (
         <div style={{ display: "flex", gap: "10px" }}>
-          <button style={{ cursor: "pointer" }}>Actualizar</button>
-          <button style={{ cursor: "pointer" }}>Eliminar</button>
+          <button style={{ cursor: "pointer" }} onClick={onEdit}>
+            Actualizar
+          </button>
+          <button style={{ cursor: "pointer" }} onClick={onDelete}>
+            Eliminar
+          </button>
         </div>
       )}
     </div>

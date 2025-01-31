@@ -4,58 +4,56 @@ import SearchBar from "./components/SearchBar";
 import TaskList from "./components/TaskList";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false); // Controla el modal
+  const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([
     "Hacer la limpieza",
     "Preparar la comida",
     "Comprar suministros",
     "Estudiar programación",
   ]);
-  const [task, setTask] = useState(""); // Almacena la tarea actual
-  const [searchValue, setSearchValue] = useState(""); // Filtrar tareas
-  const [editIndex, setEditIndex] = useState(null); // Índice de la tarea en edición
+  const [task, setTask] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
-  // Filtrar tareas según el valor de búsqueda
   const filteredTasks = tasks.filter((task) =>
     task.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  // Abrir el modal para agregar o editar
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
 
-  // Manejar el cambio de la entrada del modal
   const handleInputChange = (e) => {
     setTask(e.target.value);
   };
 
-  // Manejar la acción de guardar una tarea (nueva o editada)
   const handleSaveTask = (e) => {
     e.preventDefault();
     if (task.trim()) {
       if (editIndex !== null) {
-        // Actualizar tarea existente
         const updatedTasks = [...tasks];
         updatedTasks[editIndex] = task;
         setTasks(updatedTasks);
         setEditIndex(null);
       } else {
-        // Agregar nueva tarea
         setTasks([...tasks, task]);
       }
       setTask("");
-      toggleModal(); // Cerrar el modal
+      toggleModal();
     } else {
       alert("Por favor, escribe una tarea válida.");
     }
   };
 
-  // Manejar la acción de editar una tarea
+  const handleDeleteTask = (index) => {
+    const taskdeleted = tasks.filter((_, i) => i !== index);
+    setTasks(taskdeleted);
+  };
+
   const handleEditTask = (index) => {
-    setEditIndex(index); // Establece el índice de la tarea a editar
-    setTask(tasks[index]); // Precarga la tarea en el modal
-    toggleModal(); // Abre el modal
+    setEditIndex(index);
+    setTask(tasks[index]);
+    toggleModal();
   };
 
   return (
@@ -65,7 +63,11 @@ function App() {
       <main>
         {tasks.length ? (
           filteredTasks.length ? (
-            <TaskList tasks={filteredTasks} onEdit={handleEditTask} />
+            <TaskList
+              tasks={filteredTasks}
+              onEdit={handleEditTask}
+              onDelete={handleDeleteTask}
+            />
           ) : (
             "Tarea no existente"
           )
@@ -75,12 +77,12 @@ function App() {
         <button
           className="add-task"
           onClick={() => {
-            setEditIndex(null); // Resetea el índice de edición
-            setTask(""); // Limpia la entrada
-            toggleModal(); // Abre el modal
+            setEditIndex(null);
+            setTask("");
+            toggleModal();
           }}
         >
-          +
+          {isOpen ? "-" : "+"}
         </button>
       </main>
 

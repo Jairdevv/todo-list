@@ -1,9 +1,14 @@
 import TaskItem from "./TaskItem";
 import "./TaskList.css";
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks, onEdit, onDelete }) => {
   const tasksPut = tasks.map((task, index) => (
-    <TaskItem key={index} task={task} />
+    <TaskItem
+      key={index}
+      task={task}
+      onEdit={() => onEdit(index)}
+      onDelete={() => onDelete(index)}
+    />
   ));
 
   return <div className="task-list">{tasksPut}</div>;
