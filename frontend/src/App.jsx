@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import TaskList from "./components/TaskList";
@@ -96,6 +96,7 @@ function App() {
                 value={task}
                 onChange={handleInputChange}
                 placeholder="Escribe tu tarea..."
+                className="inputModal"
               />
               <div className="modal-actions">
                 <button type="button" onClick={toggleModal}>

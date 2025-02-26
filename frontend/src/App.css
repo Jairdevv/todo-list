@@ -4,6 +4,10 @@
   padding: 2rem;
   text-align: center;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {
@@ -29,4 +33,25 @@ main {
   display: grid;
   place-content: center;
   padding: 20px;
+}
+
+.modal {
+  position: absolute;
+  background: #444;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.inputModal {
+  padding: 10px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
