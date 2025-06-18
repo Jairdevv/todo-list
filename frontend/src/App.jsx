@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import TaskList from "./components/TaskList";
+import ModalAddTask from "./components/ModalAddTask";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -87,28 +88,13 @@ function App() {
       </main>
 
       {isOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>{editIndex !== null ? "Editar Tarea" : "Nueva Tarea"}</h2>
-            <form onSubmit={handleSaveTask}>
-              <input
-                type="text"
-                value={task}
-                onChange={handleInputChange}
-                placeholder="Escribe tu tarea..."
-                className="inputModal"
-              />
-              <div className="modal-actions">
-                <button type="button" onClick={toggleModal}>
-                  Cancelar
-                </button>
-                <button type="submit">
-                  {editIndex !== null ? "Actualizar" : "Guardar"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <ModalAddTask
+          editIndex={editIndex}
+          handleInputChange={handleInputChange}
+          task={task}
+          handleSaveTask={handleSaveTask}
+          toggleModal={toggleModal}
+        />
       )}
     </>
   );
