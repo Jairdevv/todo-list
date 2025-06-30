@@ -7,17 +7,14 @@ import ModalAddTask from "./components/ModalAddTask";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([
-    "Hacer la limpieza",
-    "Preparar la comida",
-    "Comprar suministros",
-    "Estudiar programación",
+    { id: 1, text: "comprar pan", completed: false },
   ]);
   const [task, setTask] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [editIndex, setEditIndex] = useState(null);
 
   const filteredTasks = tasks.filter((task) =>
-    task.toLowerCase().includes(searchValue.toLowerCase())
+    task.text.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const toggleModal = () => {
@@ -30,19 +27,35 @@ function App() {
 
   const handleSaveTask = (e) => {
     e.preventDefault();
-    if (task.trim()) {
-      if (editIndex !== null) {
-        const updatedTasks = [...tasks];
-        updatedTasks[editIndex] = task;
-        setTasks(updatedTasks);
-        setEditIndex(null);
-      } else {
-        setTasks([...tasks, task]);
-      }
-      setTask("");
-      toggleModal();
-    } else {
+    const trimmedTask = task.trim();
+    if (!trimmedTask) {
       alert("Por favor, escribe una tarea válida.");
+      return;
+    }
+
+    const duplicate = tasks.some(
+      (t) => t.text.toLowerCase() === trimmedTask.toLowerCase()
+    );
+
+    if (duplicate && editIndex === null) {
+      alert("La tarea ya existe.");
+      return;
+    }
+
+    if (editIndex !== null) {
+      const updatedTasks = [...tasks];
+      updatedTasks[editIndex] = { ...updatedTasks, text: trimmedTask };
+      setTasks(updatedTasks);
+      setEditIndex(null);
+    } else {
+      setTasks([
+        ...tasks,
+        {
+          id: Date.now(),
+          text: trimmedTask,
+          completed: false,
+        },
+      ]);
     }
   };
 
@@ -53,7 +66,7 @@ function App() {
 
   const handleEditTask = (index) => {
     setEditIndex(index);
-    setTask(tasks[index]);
+    setTask(tasks[index].text);
     toggleModal();
   };
 
