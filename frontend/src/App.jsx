@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import TaskList from "./components/TaskList";
 import ModalAddTask from "./components/ModalAddTask";
 
 function App() {
+  const nextId = useRef(1);
   const [isOpen, setIsOpen] = useState(false);
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "comprar pan", completed: false },
-  ]);
+  const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [editIndex, setEditIndex] = useState(null);
@@ -44,14 +43,17 @@ function App() {
 
     if (editIndex !== null) {
       const updatedTasks = [...tasks];
-      updatedTasks[editIndex] = { ...updatedTasks, text: trimmedTask };
+      updatedTasks[editIndex] = {
+        ...updatedTasks[editIndex],
+        text: trimmedTask,
+      };
       setTasks(updatedTasks);
       setEditIndex(null);
     } else {
       setTasks([
         ...tasks,
         {
-          id: Date.now(),
+          id: nextId.current++,
           text: trimmedTask,
           completed: false,
         },

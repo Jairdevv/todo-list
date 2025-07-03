@@ -4,7 +4,7 @@ import "./TaskList.css";
 const TaskList = ({ tasks, onEdit, onDelete }) => {
   const tasksPut = tasks.map((task, index) => (
     <TaskItem
-      key={index}
+      key={task.id}
       task={task}
       onEdit={() => onEdit(index)}
       onDelete={() => onDelete(index)}

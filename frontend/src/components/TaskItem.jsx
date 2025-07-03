@@ -18,7 +18,7 @@ const TaskItem = ({ task, onEdit, onDelete }) => {
     >
       <div className="task-item-header" onClick={handlerToggle}>
         <input type="checkbox" checked={isChecked} onChange={handlerToggle} />
-        <h2>{task}</h2>
+        <h2>{task.text}</h2>
       </div>
       {isHover && (
         <div style={{ display: "flex", gap: "10px" }}>
