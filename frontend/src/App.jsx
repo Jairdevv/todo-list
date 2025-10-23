@@ -10,7 +10,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
   const [searchValue, setSearchValue] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
+  const [editTaskId, setEditTaskId] = useState(null);
 
   const filteredTasks = tasks.filter((task) =>
     task.text.toLowerCase().includes(searchValue.toLowerCase())
@@ -36,19 +36,22 @@ function App() {
       (t) => t.text.toLowerCase() === trimmedTask.toLowerCase()
     );
 
-    if (duplicate && editIndex === null) {
+    if (duplicate && editTaskId === null) {
       alert("La tarea ya existe.");
       return;
     }
 
-    if (editIndex !== null) {
-      const updatedTasks = [...tasks];
-      updatedTasks[editIndex] = {
-        ...updatedTasks[editIndex],
-        text: trimmedTask,
-      };
+    if (editTaskId !== null) {
+      // const updatedTasks = [...tasks];
+      // updatedTasks[editTaskId] = {
+      //   ...updatedTasks[editTaskId],
+      //   text: trimmedTask,
+      // };
+      const updatedTasks = tasks.map((t) =>
+        t.id === editTaskId ? { ...t, text: trimmedTask } : t
+      );
       setTasks(updatedTasks);
-      setEditIndex(null);
+      setEditTaskId(null);
     } else {
       setTasks([
         ...tasks,
@@ -61,13 +64,12 @@ function App() {
     }
   };
 
-  const handleDeleteTask = (index) => {
-    const taskdeleted = tasks.filter((_, i) => i !== index);
-    setTasks(taskdeleted);
+  const handleDeleteTask = (id) => {
+    setTasks(tasks.filter((t) => t.id !== id));
   };
 
   const handleEditTask = (index) => {
-    setEditIndex(index);
+    setEditTaskId(index);
     setTask(tasks[index].text);
     toggleModal();
   };
@@ -93,7 +95,7 @@ function App() {
         <button
           className="add-task"
           onClick={() => {
-            setEditIndex(null);
+            setEditTaskId(null);
             setTask("");
             toggleModal();
           }}
@@ -104,7 +106,7 @@ function App() {
 
       {isOpen && (
         <ModalAddTask
-          editIndex={editIndex}
+          editTaskId={editTaskId}
           handleInputChange={handleInputChange}
           task={task}
           handleSaveTask={handleSaveTask}

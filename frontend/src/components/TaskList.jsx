@@ -2,12 +2,12 @@ import TaskItem from "./TaskItem";
 import "./TaskList.css";
 
 const TaskList = ({ tasks, onEdit, onDelete }) => {
-  const tasksPut = tasks.map((task, index) => (
+  const tasksPut = tasks.map((task) => (
     <TaskItem
       key={task.id}
       task={task}
-      onEdit={() => onEdit(index)}
-      onDelete={() => onDelete(index)}
+      onEdit={() => onEdit(task.id)}
+      onDelete={() => onDelete(task.id)}
     />
   ));
 

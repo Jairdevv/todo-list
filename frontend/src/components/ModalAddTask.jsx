@@ -1,5 +1,5 @@
 const ModalAddTask = ({
-  editIndex,
+  editTaskId,
   handleSaveTask,
   task,
   handleInputChange,
@@ -8,7 +8,7 @@ const ModalAddTask = ({
   return (
     <div className="modal">
       <div className="modal-content">
-        <h2>{editIndex !== null ? "Editar Tarea" : "Nueva Tarea"}</h2>
+        <h2>{editTaskId !== null ? "Editar Tarea" : "Nueva Tarea"}</h2>
         <form onSubmit={handleSaveTask}>
           <input
             type="text"
@@ -22,7 +22,7 @@ const ModalAddTask = ({
               Cancelar
             </button>
             <button type="submit">
-              {editIndex !== null ? "Actualizar" : "Guardar"}
+              {editTaskId !== null ? "Actualizar" : "Guardar"}
             </button>
           </div>
         </form>
